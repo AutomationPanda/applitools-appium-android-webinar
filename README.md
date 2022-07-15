@@ -29,3 +29,5 @@ You'll need to install and configure the following:
 * [Appium Inspector](https://github.com/appium/appium-inspector)
 
 Follow Gaurav's guides listed above for instructions on setting up everything.
+
+*Warning:* Setup might take several hours due to large download sizes.
