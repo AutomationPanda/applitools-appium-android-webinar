@@ -1,0 +1,9 @@
+{
+  "platformName": "android",
+  "automationName": "uiautomator2",
+  "platformVersion": "12",
+  "deviceName": "Pixel_3a_API_32_arm64-v8a",
+  "app": "/Users/automationpanda/Code/scratch/ApiDemos-debug.apk",
+  "appPackage": "io.appium.android.apis",
+  "appActivity": "io.appium.android.apis.ApiDemos"
+}
