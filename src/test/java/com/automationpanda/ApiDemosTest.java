@@ -1,7 +1,5 @@
 package com.automationpanda;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import org.junit.jupiter.api.AfterEach;
@@ -13,20 +11,12 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.net.URL;
-import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ApiDemosTest {
-
-    private final static String APPIUM_SERVER_URL = "http://127.0.0.1:4723/wd/hub";
-    private final static String CAPABILITIES_PATH = "api-demos-caps.json";
 
     private AppiumDriver<MobileElement> driver;
     private WebDriverWait wait;
@@ -34,14 +24,16 @@ public class ApiDemosTest {
     @BeforeEach
     public void initDriver() throws IOException {
 
-        ClassLoader load = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(load.getResource(CAPABILITIES_PATH)).getFile());
-        String jsonString = new String(Files.readAllBytes(file.toPath()));
-        Type tokenType = new TypeToken<HashMap<String, String>>(){}.getType();
-        HashMap<String, Object> map = new Gson().fromJson(jsonString, tokenType);
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("platformName", "android");
+        capabilities.setCapability("automationName", "uiautomator2");
+        capabilities.setCapability("platformVersion", "12");
+        capabilities.setCapability("deviceName", "Pixel 3a API 32");
+        capabilities.setCapability("app", "/Users/automationpanda/Code/scratch/ApiDemos-debug.apk");
+        capabilities.setCapability("appPackage", "io.appium.android.apis");
+        capabilities.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
 
-        DesiredCapabilities desiredCapabilities = new DesiredCapabilities(map);
-        driver = new AppiumDriver<>(new URL(APPIUM_SERVER_URL), desiredCapabilities);
+        driver = new AppiumDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
         wait = new WebDriverWait(driver, 10);
     }
 
