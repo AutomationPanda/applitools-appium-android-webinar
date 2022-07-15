@@ -1,7 +1,6 @@
 package com.automationpanda;
 
 import io.appium.java_client.AppiumDriver;
-import io.appium.java_client.MobileElement;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,12 +12,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ApiDemosTest {
 
-    private AppiumDriver<MobileElement> driver;
+    private AppiumDriver driver;
     private WebDriverWait wait;
 
     @BeforeEach
@@ -26,15 +26,15 @@ public class ApiDemosTest {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("automationName", "uiautomator2");
-        capabilities.setCapability("platformVersion", "12");
-        capabilities.setCapability("deviceName", "Pixel 3a API 32");
-        capabilities.setCapability("app", "/Users/automationpanda/Code/scratch/ApiDemos-debug.apk");
-        capabilities.setCapability("appPackage", "io.appium.android.apis");
-        capabilities.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
+        capabilities.setCapability("appium:automationName", "uiautomator2");
+        capabilities.setCapability("appium:platformVersion", "12");
+        capabilities.setCapability("appium:deviceName", "Pixel 3a API 32");
+        capabilities.setCapability("appium:app", "/Users/automationpanda/Code/scratch/ApiDemos-debug.apk");
+        capabilities.setCapability("appium:appPackage", "io.appium.android.apis");
+        capabilities.setCapability("appium:appActivity", "io.appium.android.apis.ApiDemos");
 
-        driver = new AppiumDriver<>(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
-        wait = new WebDriverWait(driver, 10);
+        driver = new AppiumDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @AfterEach
