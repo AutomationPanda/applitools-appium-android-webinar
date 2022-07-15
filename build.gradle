@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group 'com.automationpanda'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.appium:java-client:7.5.1'
+    implementation 'org.seleniumhq.selenium:selenium-server:3.141.59'
+    implementation 'org.seleniumhq.selenium:selenium-java:3.141.59'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+}
+
+test {
+    useJUnitPlatform()
+}
