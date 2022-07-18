@@ -1,10 +1,16 @@
 package com.automationpanda;
 
+import com.applitools.eyes.BatchInfo;
+import com.applitools.eyes.appium.Eyes;
+import com.applitools.eyes.appium.Target;
+import com.applitools.eyes.config.Configuration;
+import com.applitools.eyes.visualgrid.model.AndroidDeviceInfo;
+import com.applitools.eyes.visualgrid.model.AndroidDeviceName;
+import com.applitools.eyes.visualgrid.model.ScreenOrientation;
+import com.applitools.eyes.visualgrid.services.RunnerOptions;
+import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import io.appium.java_client.AppiumDriver;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -24,9 +30,12 @@ public class ApplifashionTest {
 
     private static String appiumUrl;
     private static DesiredCapabilities capabilities;
+    private static Configuration config;
+    private static VisualGridRunner runner;
 
     private AppiumDriver driver;
     private WebDriverWait wait;
+    private Eyes eyes;
 
     private static String readAppiumUrl() {
         return System.getenv().getOrDefault("APPIUM_URL", "http://127.0.0.1:4723/wd/hub");
@@ -79,23 +88,58 @@ public class ApplifashionTest {
 
         appiumUrl = readAppiumUrl();
         capabilities = buildCapabilities();
+
+        // Create the runner for the Ultrafast Grid
+        // Warning: If you have a free account, then concurrency will be limited to 1
+        runner = new VisualGridRunner(new RunnerOptions().testConcurrency(5));
+
+        // Create a configuration for Applitools Eyes
+        config = new Configuration();
+
+        // Set the Applitools API key so test results are uploaded to your account
+        config.setApiKey("jTr0GGxyKWuiIQNckADfa1104JzFKlvY2cAjlmOsmv1J4110" /*System.getenv("APPLITOOLS_API_KEY")*/);
+
+        // Create a new batch
+        config.setBatch(new BatchInfo("Applifashion x NMG"));
+
+        // Add mobile devices to test in the Native Mobile Grid
+        // TODO: add tablets once they are ready
+        config.addMobileDevices(
+                new AndroidDeviceInfo(AndroidDeviceName.Pixel_4, ScreenOrientation.PORTRAIT),
+                new AndroidDeviceInfo(AndroidDeviceName.Galaxy_S21_ULTRA, ScreenOrientation.LANDSCAPE));
     }
 
     @BeforeEach
-    public void initDriver() throws IOException {
+    public void setUpVisualAi(TestInfo testInfo) throws IOException {
 
+        // Initialize the Appium driver
         driver = new AppiumDriver(new URL(appiumUrl), capabilities);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        // Initialize Applitools Eyes
+        eyes = new Eyes(runner);
+        eyes.setConfiguration(config);
+        eyes.setIsDisabled(false);
+
+        // Open Eyes to start visual testing
+        eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
     }
 
     @AfterEach
     public void quitDriver() {
+
+        // Quit the Appium driver cleanly
         driver.quit();
+
+        // Close Eyes to tell the server it should display the results
+        eyes.closeAsync();
     }
 
     @Test
     public void mainPage() {
 
+        // Take a visual snapshot
+        eyes.check("Main Page", Target.window().fully());
     }
 
     @Test
@@ -109,5 +153,8 @@ public class ApplifashionTest {
         // Wait for the product page to appear
         WebElement shoeProductImage = driver.findElement(By.id("com.applitools.applifashion.main:id/shoe_image_product_page"));
         wait.until(ExpectedConditions.visibilityOf(shoeProductImage));
+
+        // Take a visual snapshot
+        eyes.check("Product Page", Target.window().fully());
     }
 }
