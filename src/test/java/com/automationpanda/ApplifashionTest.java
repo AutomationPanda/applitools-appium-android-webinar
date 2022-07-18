@@ -49,7 +49,7 @@ public class ApplifashionTest {
         config.setApiKey(inputReader.getApplitoolsApiKey());
 
         // Create a new batch
-        config.setBatch(new BatchInfo("Applifashion x NMG"));
+        config.setBatch(new BatchInfo("Applifashion in the NMG"));
 
         // Add mobile devices to test in the Native Mobile Grid
         // TODO: add tablets once they are ready
