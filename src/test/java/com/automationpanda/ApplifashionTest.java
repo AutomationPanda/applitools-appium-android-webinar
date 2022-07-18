@@ -77,7 +77,7 @@ public class ApplifashionTest {
 
         // Initialize the Appium driver
         driver = new AppiumDriver(new URL(inputReader.getAppiumUrl()), capabilities);
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
         // Initialize Applitools Eyes
         eyes = new Eyes(runner);
