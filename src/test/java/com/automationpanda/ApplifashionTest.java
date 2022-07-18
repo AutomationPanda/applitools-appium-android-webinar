@@ -47,6 +47,7 @@ public class ApplifashionTest {
         final String appPath = "/Users/automationpanda/Desktop/Applifashion/" + appVersion + "-app-debug.apk";
         final String appPackage = "com.applitools.applifashion.main";
         final String appActivity = "com.applitools.applifashion.main.activities.MainActivity";
+        final String fullReset = "true";
 
         // Create capabilities
         capabilities = new DesiredCapabilities();
@@ -57,6 +58,7 @@ public class ApplifashionTest {
         capabilities.setCapability("appium:app", appPath);
         capabilities.setCapability("appium:appPackage", appPackage);
         capabilities.setCapability("appium:appActivity", appActivity);
+        capabilities.setCapability("appium:fullReset", fullReset);
 
         // Return the capabilities
         return capabilities;
