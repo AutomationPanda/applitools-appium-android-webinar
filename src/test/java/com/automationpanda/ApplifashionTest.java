@@ -26,26 +26,37 @@ public class ApplifashionTest {
     private AppiumDriver driver;
     private WebDriverWait wait;
 
+    private static String readAppiumUrl() {
+        return System.getenv().getOrDefault("APPIUM_URL", "http://127.0.0.1:4723/wd/hub");
+    }
+
     private static DesiredCapabilities buildCapabilities() {
 
-        // Read and build app path
+        // Read the app branch
         String appVersion = System.getenv().getOrDefault("APP_BRANCH", "main");
         assertTrue(Arrays.asList("main", "dev", "prod").contains(appVersion));
-        String appPath = "/Users/automationpanda/Desktop/Applifashion/" + appVersion + "-app-debug.apk";
 
-        // Read inputs from environment variables
-        String platformVersion = System.getenv().getOrDefault("APPIUM_PLATFORM_VERSION", "12");
-        String deviceName = System.getenv().getOrDefault("APPIUM_DEVICE_NAME", "Pixel 3a API 32");
+        // Read or set capability values
+        // Hard-coding these values is typically not a recommended practice
+        // Instead, you should read them from a resource file (like a properties or JSON file)
+        // They are set here like this to make this example code simpler
+        final String platformName = "android";
+        final String automationName = "uiautomator2";
+        final String platformVersion = System.getenv().getOrDefault("APPIUM_PLATFORM_VERSION", "12");
+        final String deviceName = System.getenv().getOrDefault("APPIUM_DEVICE_NAME", "Pixel 3a API 32");
+        final String appPath = "/Users/automationpanda/Desktop/Applifashion/" + appVersion + "-app-debug.apk";
+        final String appPackage = "com.applitools.applifashion.main";
+        final String appActivity = "com.applitools.applifashion.main.activities.MainActivity";
 
         // Create capabilities
         capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("appium:automationName", "uiautomator2");
+        capabilities.setCapability("platformName", platformName);
+        capabilities.setCapability("appium:automationName", automationName);
         capabilities.setCapability("appium:platformVersion", platformVersion);
         capabilities.setCapability("appium:deviceName", deviceName);
         capabilities.setCapability("appium:app", appPath);
-        capabilities.setCapability("appium:appPackage", "com.applitools.applifashion.main");
-        capabilities.setCapability("appium:appActivity", "com.applitools.applifashion.main.activities.MainActivity");
+        capabilities.setCapability("appium:appPackage", appPackage);
+        capabilities.setCapability("appium:appActivity", appActivity);
 
         // Return the capabilities
         return capabilities;
@@ -54,10 +65,7 @@ public class ApplifashionTest {
     @BeforeAll
     public static void setUpAllTests() {
 
-        // Read the Appium URL
-        appiumUrl = System.getenv().getOrDefault("APPIUM_URL", "http://127.0.0.1:4723/wd/hub");
-
-        // Create the capabilities
+        appiumUrl = readAppiumUrl();
         capabilities = buildCapabilities();
     }
 
