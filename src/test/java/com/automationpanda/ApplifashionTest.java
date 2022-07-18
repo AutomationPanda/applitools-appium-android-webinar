@@ -55,7 +55,7 @@ public class ApplifashionTest {
         // TODO: add tablets once they are ready
         config.addMobileDevices(
                 new AndroidDeviceInfo(AndroidDeviceName.Pixel_4, ScreenOrientation.PORTRAIT),
-                new AndroidDeviceInfo(AndroidDeviceName.Galaxy_S21_ULTRA, ScreenOrientation.LANDSCAPE));
+                new AndroidDeviceInfo(AndroidDeviceName.Pixel_4, ScreenOrientation.LANDSCAPE));
     }
 
     @BeforeEach
@@ -84,8 +84,8 @@ public class ApplifashionTest {
         eyes.setConfiguration(config);
         eyes.setIsDisabled(false);
 
-//        // Open Eyes to start visual testing
-//        eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
+        // Open Eyes to start visual testing
+        eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
     }
 
     @AfterEach
@@ -94,15 +94,15 @@ public class ApplifashionTest {
         // Quit the Appium driver cleanly
         driver.quit();
 
-//        // Close Eyes to tell the server it should display the results
-//        eyes.closeAsync();
+        // Close Eyes to tell the server it should display the results
+        eyes.closeAsync();
     }
 
     @Test
     public void mainPage() {
 
-//        // Take a visual snapshot
-//        eyes.check("Main Page", Target.window().fully());
+        // Take a visual snapshot
+        eyes.check("Main Page", Target.window().fully());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class ApplifashionTest {
         WebElement shoeProductImage = driver.findElement(By.id("com.applitools.applifashion.main:id/shoe_image_product_page"));
         wait.until(ExpectedConditions.visibilityOf(shoeProductImage));
 
-//        // Take a visual snapshot
-//        eyes.check("Product Page", Target.window().fully());
+        // Take a visual snapshot
+        eyes.check("Product Page", Target.window().fully());
     }
 }

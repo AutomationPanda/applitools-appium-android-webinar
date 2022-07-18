@@ -55,7 +55,7 @@ public class InputReader {
         appiumUrl = System.getenv().getOrDefault("APPIUM_URL", "http://127.0.0.1:4723/wd/hub");
         appiumDeviceName = System.getenv().getOrDefault("APPIUM_DEVICE_NAME", "Pixel 3a API 32");
         appiumPlatformVersion = System.getenv().getOrDefault("APPIUM_PLATFORM_VERSION", "12");
-        applitoolsApiKey = "jTr0GGxyKWuiIQNckADfa1104JzFKlvY2cAjlmOsmv1J4110"; //System.getenv("APPLITOOLS_API_KEY");
+        applitoolsApiKey = System.getenv("APPLITOOLS_API_KEY");
 
         // Verify that the inputs are okay
         assertTrue(Arrays.asList("main", "dev", "prod").contains(appBranch));
