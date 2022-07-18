@@ -17,19 +17,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Objects;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ApplifashionTest {
 
-    private static String appiumUrl;
-    private static DesiredCapabilities capabilities;
+    private static InputReader inputReader;
     private static Configuration config;
     private static VisualGridRunner runner;
 
@@ -37,57 +31,12 @@ public class ApplifashionTest {
     private WebDriverWait wait;
     private Eyes eyes;
 
-    private static String readAppiumUrl() {
-        return System.getenv().getOrDefault("APPIUM_URL", "http://127.0.0.1:4723/wd/hub");
-    }
-
-    private static String readPlatformVersion() {
-        return System.getenv().getOrDefault("APPIUM_PLATFORM_VERSION", "12");
-    }
-
-    private static String readDeviceName() {
-        return System.getenv().getOrDefault("APPIUM_DEVICE_NAME", "Pixel 3a API 32");
-    }
-
-    private static String readAppPath() {
-
-        // Read the app branch
-        String appVersion = System.getenv().getOrDefault("APP_BRANCH", "main");
-        assertTrue(Arrays.asList("main", "dev", "prod").contains(appVersion));
-
-        // Get the apk folder path from the resources directory
-        String apkFolderPath = Objects.requireNonNull(
-                ApplifashionTest.class.getClassLoader().getResource("instrumented-apk")).getPath();
-
-        // Concatenate and return the app path
-        return apkFolderPath + File.separator + appVersion + "-app-inst.apk";
-    }
-
-    private static DesiredCapabilities buildCapabilities() {
-
-        // Create capabilities
-        // Hard-coding these values is typically not a recommended practice
-        // Instead, they should be read from a resource file (like a properties or JSON file)
-        // They are set here like this to make this example code simpler
-        capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "android");
-        capabilities.setCapability("appium:automationName", "uiautomator2");
-        capabilities.setCapability("appium:platformVersion", readPlatformVersion());
-        capabilities.setCapability("appium:deviceName", readDeviceName());
-        capabilities.setCapability("appium:app", readAppPath());
-        capabilities.setCapability("appium:appPackage", "com.applitools.applifashion.main");
-        capabilities.setCapability("appium:appActivity", "com.applitools.applifashion.main.activities.MainActivity");
-        capabilities.setCapability("appium:fullReset", "true");
-
-        // Return the capabilities
-        return capabilities;
-    }
-
     @BeforeAll
     public static void setUpAllTests() {
 
-        appiumUrl = readAppiumUrl();
-        capabilities = buildCapabilities();
+        // Read inputs
+        inputReader = new InputReader();
+        inputReader.readInputs();
 
         // Create the runner for the Ultrafast Grid
         // Warning: If you have a free account, then concurrency will be limited to 1
@@ -97,7 +46,7 @@ public class ApplifashionTest {
         config = new Configuration();
 
         // Set the Applitools API key so test results are uploaded to your account
-        config.setApiKey("jTr0GGxyKWuiIQNckADfa1104JzFKlvY2cAjlmOsmv1J4110" /*System.getenv("APPLITOOLS_API_KEY")*/);
+        config.setApiKey(inputReader.getApplitoolsApiKey());
 
         // Create a new batch
         config.setBatch(new BatchInfo("Applifashion x NMG"));
@@ -112,8 +61,22 @@ public class ApplifashionTest {
     @BeforeEach
     public void setUpVisualAi(TestInfo testInfo) throws IOException {
 
+        // Create Appium capabilities
+        // Hard-coding these values is typically not a recommended practice
+        // Instead, they should be read from a resource file (like a properties or JSON file)
+        // They are set here like this to make this example code simpler
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        capabilities.setCapability("platformName", "android");
+        capabilities.setCapability("appium:automationName", "uiautomator2");
+        capabilities.setCapability("appium:platformVersion", inputReader.getAppiumPlatformVersion());
+        capabilities.setCapability("appium:deviceName", inputReader.getAppiumDeviceName());
+        capabilities.setCapability("appium:app", inputReader.getAppPath());
+        capabilities.setCapability("appium:appPackage", "com.applitools.applifashion.main");
+        capabilities.setCapability("appium:appActivity", "com.applitools.applifashion.main.activities.MainActivity");
+        capabilities.setCapability("appium:fullReset", "true");
+
         // Initialize the Appium driver
-        driver = new AppiumDriver(new URL(appiumUrl), capabilities);
+        driver = new AppiumDriver(new URL(inputReader.getAppiumUrl()), capabilities);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Initialize Applitools Eyes
@@ -121,8 +84,8 @@ public class ApplifashionTest {
         eyes.setConfiguration(config);
         eyes.setIsDisabled(false);
 
-        // Open Eyes to start visual testing
-        eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
+//        // Open Eyes to start visual testing
+//        eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
     }
 
     @AfterEach
@@ -131,15 +94,15 @@ public class ApplifashionTest {
         // Quit the Appium driver cleanly
         driver.quit();
 
-        // Close Eyes to tell the server it should display the results
-        eyes.closeAsync();
+//        // Close Eyes to tell the server it should display the results
+//        eyes.closeAsync();
     }
 
     @Test
     public void mainPage() {
 
-        // Take a visual snapshot
-        eyes.check("Main Page", Target.window().fully());
+//        // Take a visual snapshot
+//        eyes.check("Main Page", Target.window().fully());
     }
 
     @Test
@@ -154,7 +117,7 @@ public class ApplifashionTest {
         WebElement shoeProductImage = driver.findElement(By.id("com.applitools.applifashion.main:id/shoe_image_product_page"));
         wait.until(ExpectedConditions.visibilityOf(shoeProductImage));
 
-        // Take a visual snapshot
-        eyes.check("Product Page", Target.window().fully());
+//        // Take a visual snapshot
+//        eyes.check("Product Page", Target.window().fully());
     }
 }
