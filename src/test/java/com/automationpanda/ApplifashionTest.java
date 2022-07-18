@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,7 +47,8 @@ public class ApplifashionTest {
         assertTrue(Arrays.asList("main", "dev", "prod").contains(appVersion));
 
         // Get the apk folder path from the resources directory
-        String apkFolderPath = ApplifashionTest.class.getClassLoader().getResource("instrumented-apk").getPath();
+        String apkFolderPath = Objects.requireNonNull(
+                ApplifashionTest.class.getClassLoader().getResource("instrumented-apk")).getPath();
 
         // Concatenate and return the app path
         return apkFolderPath + File.separator + appVersion + "-app-inst.apk";
