@@ -83,6 +83,7 @@ public class ApplifashionTest {
         eyes = new Eyes(runner);
         eyes.setConfiguration(config);
         eyes.setIsDisabled(false);
+        eyes.setForceFullPageScreenshot(true);
 
         // Open Eyes to start visual testing
         eyes.open(driver, "Applifashion Mobile App", testInfo.getDisplayName());
