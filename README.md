@@ -87,3 +87,6 @@ To run from the command line, run the following Gradle directive:
 ```
 :test --tests "com.automationpanda.ApplifashionTest"
 ```
+
+The tests will run once locally,
+and then Applitools will render snapshots against multiple Android devices in the Native Mobile Grid.
