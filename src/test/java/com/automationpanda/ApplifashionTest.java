@@ -52,10 +52,10 @@ public class ApplifashionTest {
         config.setBatch(new BatchInfo("Applifashion in the NMG"));
 
         // Add mobile devices to test in the Native Mobile Grid
-        // TODO: add tablets once they are ready
         config.addMobileDevices(
-                new AndroidDeviceInfo(AndroidDeviceName.Pixel_4, ScreenOrientation.PORTRAIT),
-                new AndroidDeviceInfo(AndroidDeviceName.Pixel_4, ScreenOrientation.LANDSCAPE));
+                new AndroidDeviceInfo(AndroidDeviceName.Galaxy_S21),
+                new AndroidDeviceInfo(AndroidDeviceName.Galaxy_Note_10),
+                new AndroidDeviceInfo(AndroidDeviceName.Pixel_4));
     }
 
     @BeforeEach
@@ -110,13 +110,13 @@ public class ApplifashionTest {
     public void productPage() {
 
         // Tap the first shoe
-        WebElement shoeMainImage = driver.findElement(By.id("com.applitools.applifashion.main:id/shoe_image"));
-        wait.until(ExpectedConditions.visibilityOf(shoeMainImage));
-        shoeMainImage.click();
+        final By shoeMainImageLocator = By.id("com.applitools.applifashion.main:id/shoe_image");
+        wait.until(ExpectedConditions.presenceOfElementLocated(shoeMainImageLocator));
+        driver.findElement(shoeMainImageLocator).click();
 
         // Wait for the product page to appear
-        WebElement shoeProductImage = driver.findElement(By.id("com.applitools.applifashion.main:id/shoe_image_product_page"));
-        wait.until(ExpectedConditions.visibilityOf(shoeProductImage));
+        final By shoeProductImageLocator = By.id("com.applitools.applifashion.main:id/shoe_image_product_page");
+        wait.until(ExpectedConditions.presenceOfElementLocated(shoeProductImageLocator));
 
         // Take a visual snapshot
         eyes.check("Product Page", Target.window().fully());
