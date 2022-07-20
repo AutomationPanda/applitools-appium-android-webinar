@@ -66,6 +66,7 @@ The tests require the following environment variables as inputs:
   * Defaults to `12`
 * `APPLITOOLS_API_KEY`
   * The Applitools API key for the user's account
+  * Register for a free Applitools account [here](https://auth.applitools.com/users/register)
   * Required
 
 
