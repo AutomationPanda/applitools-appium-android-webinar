@@ -81,7 +81,7 @@ Before launching tests, make sure:
 The test class is `ApplifashionTest`.
 It is located at `src/test/java/com/automationpanda/ApplifashionTest.java`.
 
-The test can be run from within an IDE or from the command line.
+The tests can be run from within an IDE or from the command line.
 To run from the command line, run the following Gradle directive:
 
 ```
