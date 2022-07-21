@@ -98,14 +98,10 @@ public class ApplifashionTest {
     }
 
     @Test
-    public void mainPage() {
+    public void shopForShoes() {
 
         // Take a visual snapshot
         eyes.check("Main Page", Target.window().fully());
-    }
-
-    @Test
-    public void productPage() {
 
         // Tap the first shoe
         final By shoeMainImageLocator = By.id("com.applitools.applifashion.main:id/shoe_image");
