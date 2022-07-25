@@ -11,6 +11,7 @@ import com.applitools.eyes.visualgrid.services.VisualGridRunner;
 import io.appium.java_client.AppiumDriver;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -97,22 +98,37 @@ public class ApplifashionTest {
         eyes.closeAsync();
     }
 
+    private WebElement getElement(By locator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+        return driver.findElement(locator);
+    }
+
     @Test
     public void shopForShoes() {
 
-        // Take a visual snapshot
+        // Take a visual snapshot of the main page
         eyes.check("Main Page", Target.window().fully());
 
+        // Open the filtering menu
+        getElement(By.id("com.applitools.applifashion.main:id/filter")).click();
+
+        // Take a visual snapshot of the filtering page
+        eyes.check("Filter Page", Target.window().fully());
+
+        // Filter for black shoes
+        getElement(By.id("com.applitools.applifashion.main:id/color_black")).click();
+        getElement(By.id("com.applitools.applifashion.main:id/filter_button")).click();
+
+        // Take a visual snapshot of the filtered page
+        eyes.check("Filtered Main Page", Target.window().fully());
+
         // Tap the first shoe
-        final By shoeMainImageLocator = By.id("com.applitools.applifashion.main:id/shoe_image");
-        wait.until(ExpectedConditions.presenceOfElementLocated(shoeMainImageLocator));
-        driver.findElement(shoeMainImageLocator).click();
+        getElement(By.id("com.applitools.applifashion.main:id/shoe_image")).click();
 
         // Wait for the product page to appear
-        final By shoeProductImageLocator = By.id("com.applitools.applifashion.main:id/shoe_image_product_page");
-        wait.until(ExpectedConditions.presenceOfElementLocated(shoeProductImageLocator));
+        getElement(By.id("com.applitools.applifashion.main:id/shoe_image_product_page"));
 
-        // Take a visual snapshot
+        // Take a visual snapshot of hte product page
         eyes.check("Product Page", Target.window().fully());
     }
 }
